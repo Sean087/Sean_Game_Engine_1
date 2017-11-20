@@ -5,22 +5,24 @@
 
 #include "Enemy.h"
 
-/* -- load() - Sets values declared in GameObject.h to be used by draw() -- */
-void Enemy::load(int x, int y, int width, int height, std::string textureID)
+Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams)
 {
-	GameObject::load(x, y, width, height, textureID);
 }
 
-/* -- draw() - Uses values set in load() to draw object to screen -- */
-void Enemy::draw(SDL_Renderer* pRenderer)
+/* -- draw() - Uses SDLGameObject's draw function to screen -- */
+void Enemy::draw()
 {
-	GameObject::draw(pRenderer);
+	SDLGameObject::draw();
 }
 
 /* -- update() - Simple update function to move object -- */
 void Enemy::update()
 {
 	m_x += 1;	// Override GameObject::update()
-	m_y += 1;	// Override GameObject::update()
-	m_currentFrame = int(((SDL_GetTicks() / 50) % 4));
+	m_y += 1;
+	m_currentFrame = int(((SDL_GetTicks() / 100) % 4));
+}
+
+void Enemy::clean()
+{
 }

@@ -6,33 +6,40 @@
 #ifndef __Game__
 #define __Game__
 
-#include "SDL.h"
-#include <stdio.h>
-#include <iostream>
 #include <vector>
 #include "GameObject.h"
-#include "Player.h"
-#include "Enemy.h"
 
 class Game
 {
 public:
 
-	Game() {};
-	~Game() {};
+	Game() {}
+	~Game() {}
+
+	// Make Game a singleton
+	// Create the public instance function
+	static Game* Instance()
+	{
+		if (s_pInstance == 0)
+		{
+			s_pInstance = new Game();
+			return s_pInstance;
+		}
+
+		return s_pInstance;
+	}
 
 	// Set running variable to true
-	//void init();
 	bool init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
-
 	void render();
-	void draw();
 	void update();
 	void handleEvents();
 	void clean();
 
 	// Function to access the provate running variable
 	bool running() { return m_bRunning; }
+
+	SDL_Renderer* getRenderer() const { return m_pRenderer; }
 
 private:
 
@@ -41,17 +48,15 @@ private:
 	
 	std::vector<GameObject*> m_gameObjects;
 
-	GameObject* m_go;
-	GameObject* m_player1;
-
-	GameObject* m_player;
-	GameObject* m_enemy1;
-	GameObject* m_enemy2;
-	GameObject* m_enemy3;
-
 	int m_currentFrame;
 
 	bool m_bRunning;
+
+	// Create the s_pInstance member variable
+	static Game* s_pInstance;
+
 };
+
+typedef Game TheGame;
 
 #endif // !__Game__

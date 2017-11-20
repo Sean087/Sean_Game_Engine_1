@@ -1,14 +1,14 @@
 //
-//	Player.h
+//	Enemy.h
 //
 //
 
-#ifndef __Player__
-#define __Player__
+#ifndef __Enemy__
+#define __Enemy__
 
 #include "GameObject.h"
 
-class Player : public GameObject // Inherit from GameObject
+class Enemy : public GameObject // Inherit from GameObject
 {
 public:
 

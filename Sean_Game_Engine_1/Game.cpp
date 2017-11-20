@@ -4,9 +4,6 @@
 //
 
 #include "Game.h"
-#include "TextureManager.h"
-#include "GameObject.h"
-#include "Player.h"
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -33,7 +30,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			if (m_pRenderer != 0) // renderer init success
 			{
 				std::cout << "render creation success\n";
-				SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+				SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 			}
 			else
 			{
@@ -57,15 +54,30 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	m_bRunning = true; // everything initialised successfully, start the main loop
 
 	// Load AnimatedKnight image to be rendered
-	/*if (!TextureManager::Instance()->load("assets/AnimatedKnight.png", "AnimatedKnight", m_pRenderer))
+	if (!TextureManager::Instance()->load("assets/AnimatedKnight.png", "AnimatedKnight", m_pRenderer))
 	{
 		return false;
-	}*/
+	}
 
 	// Load Gameobject and Player
-	m_go.load(100, 100, 128, 92, "assets/Solair.png");
-	m_player.load(300, 300, 128, 82, "assets/Solair.png");
+	//m_go.load(10, 10, 240, 240, "AnimatedKnight");
+	//m_player.load(210, 210, 240, 240, "AnimatedKnight");
+	
+	m_player = new Player();
+	m_enemy1 = new Enemy();
+	m_enemy2 = new Enemy();
+	m_enemy3 = new Enemy();
 
+	m_player->load(0, 0, 240, 240, "AnimatedKnight");
+	m_enemy1->load(200, 200, 240, 240, "AnimatedKnight");
+	m_enemy2->load(400, 400, 240, 240, "AnimatedKnight");
+	m_enemy3->load(800, 800, 240, 240, "AnimatedKnight");
+
+	m_gameObjects.push_back(m_player);
+	m_gameObjects.push_back(m_enemy1);
+	m_gameObjects.push_back(m_enemy2);
+	m_gameObjects.push_back(m_enemy3);
+	
 	return true;
 }// end init
 
@@ -73,20 +85,21 @@ void Game::render()
 {
 	SDL_RenderClear(m_pRenderer); // clear the renderer to the draw colour
 
-	//TextureManager::Instance()->draw("AnimatedKnight", 200, 200, 960, 240, m_pRenderer);
-	//TextureManager::Instance()->drawFrame("AnimatedKnight", 0, 0, 240, 240, 1, m_currentFrame, m_pRenderer);
-
-	m_go.draw(m_pRenderer);
-	m_player.draw(m_pRenderer);
+	// Loop through objects and draw them
+	for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
+	{
+		m_gameObjects[i]->draw(m_pRenderer);
+	}
 
 	SDL_RenderPresent(m_pRenderer); // draw to the screen
 }// end render
 
 void Game::update()
 {
-	//m_currentFrame = int(((SDL_GetTicks() / 200) % 4));
-	m_go.update();
-	m_player.update();
+	for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
+	{
+		m_gameObjects[i]->update();
+	}
 }// end update
 
 void Game::handleEvents()

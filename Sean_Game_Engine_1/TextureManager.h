@@ -6,7 +6,6 @@
 #ifndef __TextureManager__
 #define __TextureManager__
 
-#include "Game.h"
 #include <map>
 #include <SDL_image.h>
 

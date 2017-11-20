@@ -9,6 +9,8 @@
 #include "SDL.h"
 #include <stdio.h>
 #include <iostream>
+#include "GameObject.h"
+#include "Player.h"
 
 class Game
 {
@@ -33,6 +35,10 @@ private:
 
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
+
+	GameObject m_go;
+	GameObject m_player;
+
 	int m_currentFrame;
 
 	bool m_bRunning;

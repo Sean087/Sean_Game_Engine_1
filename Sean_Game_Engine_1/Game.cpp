@@ -5,6 +5,8 @@
 
 #include "Game.h"
 #include "TextureManager.h"
+#include "GameObject.h"
+#include "Player.h"
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -55,10 +57,15 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	m_bRunning = true; // everything initialised successfully, start the main loop
 
 	// Load AnimatedKnight image to be rendered
-	if (!TextureManager::Instance()->load("assets/AnimatedKnight.png", "AnimatedKnight", m_pRenderer))
+	/*if (!TextureManager::Instance()->load("assets/AnimatedKnight.png", "AnimatedKnight", m_pRenderer))
 	{
 		return false;
-	}
+	}*/
+
+	// Load Gameobject and Player
+	m_go.load(100, 100, 128, 92, "assets/Solair.png");
+	m_player.load(300, 300, 128, 82, "assets/Solair.png");
+
 	return true;
 }// end init
 
@@ -66,15 +73,20 @@ void Game::render()
 {
 	SDL_RenderClear(m_pRenderer); // clear the renderer to the draw colour
 
-	TextureManager::Instance()->draw("AnimatedKnight", 200, 200, 960, 240, m_pRenderer);
-	TextureManager::Instance()->drawFrame("AnimatedKnight", 0, 0, 240, 240, 1, m_currentFrame, m_pRenderer);
+	//TextureManager::Instance()->draw("AnimatedKnight", 200, 200, 960, 240, m_pRenderer);
+	//TextureManager::Instance()->drawFrame("AnimatedKnight", 0, 0, 240, 240, 1, m_currentFrame, m_pRenderer);
+
+	m_go.draw(m_pRenderer);
+	m_player.draw(m_pRenderer);
 
 	SDL_RenderPresent(m_pRenderer); // draw to the screen
 }// end render
 
 void Game::update()
 {
-	m_currentFrame = int(((SDL_GetTicks() / 200) % 4));
+	//m_currentFrame = int(((SDL_GetTicks() / 200) % 4));
+	m_go.update();
+	m_player.update();
 }// end update
 
 void Game::handleEvents()

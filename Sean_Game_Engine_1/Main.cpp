@@ -14,7 +14,7 @@ SDL_Event the_event;	// event for quitting the game when ESC is pressed
 int main(int argc, char* argv[])
 {
 	std::cout << "game init attempt...\n";
-	if(TheGame::Instance()->init("Seans Game Framework -  v0.2", 100, 100, 640, 480, false))
+	if(TheGame::Instance()->init("Seans Game Framework -  v0.2", 100, 100, 1280, 960, false))
 	{
 		std::cout << "game init success!\n";
 		while(TheGame::Instance()->running() && quit == false)

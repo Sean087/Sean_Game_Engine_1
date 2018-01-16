@@ -7,8 +7,9 @@
 #define __Game__
 
 #include <vector>
+#include <fstream>
 #include "GameObject.h"
-
+#include "Tile.h"
 class Game
 {
 public:
@@ -35,6 +36,11 @@ public:
 	void update();
 	void handleEvents();
 	void clean();
+
+	bool loadMedia(Tile* tiles[]);
+
+	//Sets tiles from tile map
+	bool setTiles(Tile *tiles[]);
 
 	// Function to access the provate running variable
 	bool running() { return m_bRunning; }

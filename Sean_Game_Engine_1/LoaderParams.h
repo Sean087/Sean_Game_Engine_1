@@ -25,7 +25,6 @@ public:
 	m_height(height), 
 	m_textureID(textureID)
 	{
-
 	}
 
 	int getX() const { return m_x; }

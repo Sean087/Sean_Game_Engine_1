@@ -14,9 +14,13 @@ public:
 
 	SDLGameObject(const LoaderParams* pParams);
 
+	int getX();
+	int getY();
+
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
+	virtual char getType();
 
 protected:
 
@@ -28,6 +32,8 @@ protected:
 
 	int m_currentRow;
 	int m_currentFrame;
+
+	char m_type;
 
 	std::string m_textureID;
 

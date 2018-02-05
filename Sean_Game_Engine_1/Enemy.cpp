@@ -18,9 +18,10 @@ void Enemy::draw()
 /* -- update() - Simple update function to move object -- */
 void Enemy::update()
 {
-	m_x += 1;	// Override GameObject::update()
-	m_y += 1;
-	m_currentFrame = int(((SDL_GetTicks() / 100) % 4));
+	//m_x += 1;	// Override GameObject::update()
+	//m_y += 1;
+	//m_currentFrame = int(((SDL_GetTicks() / 100) % 4));
+
 }
 
 void Enemy::clean()

@@ -16,7 +16,7 @@ public:
 	Player(const LoaderParams* pParams);
 
 	virtual void draw();
-	virtual void update();
+	virtual void update(int waypointX, int waypointY);
 	virtual void clean();
 };
 #endif

@@ -9,7 +9,8 @@
 #include "Enemy.h"
 #include "Tile.h"
 #include <iostream>
-
+#include <time.h>
+#include <stdlib.h>
 //Screen dimension constants
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 960;
@@ -38,7 +39,6 @@ const int TILE_BOTTOMLEFT = 9;
 const int TILE_LEFT = 10;
 const int TILE_TOPLEFT = 11;
 
-
 Game* Game::s_pInstance = 0;
 
 LoadTileTexture gTileTexture;
@@ -51,8 +51,12 @@ SDL_Rect gTileClips[12];
 //Level camera
 SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
+Player player = new LoaderParams(20, 20, 40, 40, "Dot", 'P');
+Enemy waypoint = new LoaderParams(500, 650, 40, 40, "Waypoint", 'W');
+
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
+
 	int flags = 0;
 
 	if (fullscreen)
@@ -105,14 +109,20 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		printf("Failed to load tile media!\n");
 	}
 
-	// Load AnimatedKnight image to be rendered
-	if (!TextureManager::Instance()->load("assets/AnimatedKnight.png", "AnimatedKnight", m_pRenderer))
+	// Load Player Dot image to be rendered
+	if (!TextureManager::Instance()->load("assets/dot.png", "Dot", m_pRenderer))
 	{
 		return false;
 	}
 
-	m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 20, 20, "AnimatedKnight")));
-	m_gameObjects.push_back(new Enemy(new LoaderParams(300, 300, 240, 240, "AnimatedKnight")));
+	// Load Waypoint Dot image to be rendered
+	if (!TextureManager::Instance()->load("assets/waypoint.png", "Waypoint", m_pRenderer))
+	{
+		return false;
+	}
+
+	//m_gameObjects.push_back(new Player(new LoaderParams(20, 20, 40, 40, "Dot", 'P')));
+	//m_gameObjects.push_back(new Enemy(new LoaderParams(500, 650, 40, 40, "Waypoint", 'W')));
 
 	return true;
 }// end init
@@ -150,20 +160,29 @@ void Game::render()
 	}
 
 	// Loop through objects and draw them
-	for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
-	{
-		m_gameObjects[i]->draw();
-	}
+	//for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
+	//{
+		//m_gameObjects[i]->draw();
+	//}
+
+	waypoint.draw();
+	player.draw();
 
 	SDL_RenderPresent(m_pRenderer); // draw to the screen
 }// end render
 
 void Game::update()
 {
-	for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
-	{
-		m_gameObjects[i]->update();
-	}
+	//for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
+	//{
+	//	if(m_gameObjects[i]->getType() == 'P')
+	//		m_gameObjects[i]->update(m_gameObjects[i+1]->)
+	//	m_gameObjects[i]->update();
+	//	listOfEnemyVirus[index]->movement(player1.getX(), player1.getY());
+	//}
+	player.update(waypoint.getX(), waypoint.getY());
+	waypoint.update();
+
 }// end update
 
 void Game::handleEvents()
@@ -200,7 +219,7 @@ bool Game::setTiles(Tile* tiles[])
 	int x = 0, y = 0;
 
 	//Open the map
-	std::ifstream map("assets/lazy.map");
+	std::ifstream map("assets/tiles.map");
 
 	//If the map couldn't be loaded
 	if (!map)
